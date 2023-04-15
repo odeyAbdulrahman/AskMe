@@ -1,3 +1,5 @@
+using Microsoft.Net.Http.Headers;
+
 namespace AskMe.APP
 {
     public class Program
@@ -5,7 +7,14 @@ namespace AskMe.APP
         public static void Main(string[] args)
         {
             var builder = WebApplication.CreateBuilder(args);
-
+            builder.Services.AddHttpClient();
+            builder.Services.AddHttpContextAccessor();
+            builder.Services.AddHttpClient("AskMe.API", client =>
+            {
+                client.BaseAddress = new Uri("https://localhost:7033"); //api url
+                client.DefaultRequestHeaders.Clear();
+                client.DefaultRequestHeaders.Add(HeaderNames.Accept, "application/json");
+            });
             // Add services to the container.
             builder.Services.AddRazorPages();
 

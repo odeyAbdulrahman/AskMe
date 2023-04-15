@@ -3,8 +3,52 @@
 @{
     ViewData["Title"] = "Home page";
 }
+<head>
+    <style>
+        table {
+            border-collapse: collapse;
+            width: 100%;
+        }
 
+        th, td {
+            text-align: left;
+            padding: 8px;
+        }
+
+        th {
+            background-color: #4CAF50;
+            color: white;
+        }
+    </style>
+</head>
 <div class="text-center">
     <h1 class="display-4">Welcome</h1>
+    <table>
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Title</th>
+                <th>Title AR</th>
+                <th>Created Date</th>
+            </tr>
+        </thead>
+        <tbody>
+            @{
+                Thread.Sleep(2000);
+                if (Model.Data != null)
+                {
+                    foreach (var row in Model?.Data)
+                    {
+                        <tr>
+                            <td>@row.Id</td>
+                            <td>@row.Title</td>
+                            <td>@row.TitleAR</td>
+                            <td>@row.CreatedDate</td>
+                        </tr>
+                    }
+                }
+            }
+        </tbody>
+    </table>
     <p>Learn about <a href="https://docs.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
 </div>

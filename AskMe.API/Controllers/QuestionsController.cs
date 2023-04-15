@@ -1,6 +1,5 @@
 ﻿using AskMe.API.Domain.Entities;
 using AskMe.API.Services;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
 namespace AskMe.API.Controllers
@@ -26,7 +25,6 @@ namespace AskMe.API.Controllers
         [HttpGet("")]
         public async Task<ActionResult> GetAsync()
         {
-
             return Ok(await Question.GetAllAsync());
         }
 
