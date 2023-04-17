@@ -1,0 +1,44 @@
+version: '3.4'
+##docker-compose -f docker-compose.yml -f docker-compose.override.yml up
+services:
+  appdb:
+    container_name: app.db
+    restart: always    
+    environment:
+    - MONGO_INITDB_DATABASE=Development
+    - MONGO_INITDB_USER=user@#
+    - MONGO_INITDB_PWD=user@123
+    ports:
+    - "27017:27017"
+    volumes:
+    - mongo_data_value:/data/db
+
+  askme.api:
+    container_name: askme.api
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - ASPNETCORE_URLS=https://+:443;http://+:80
+      - "DataBaseSettings:ConnectionString=mongodb://host.docker.internal:27017"
+    depends_on:
+      - appdb
+    ports:
+      - "8081:80"
+      - "4431:443"
+    volumes:
+      - ${APPDATA}/Microsoft/UserSecrets:/root/.microsoft/usersecrets:ro
+      - ${APPDATA}/ASP.NET/Https:/root/.aspnet/https:ro
+
+  askme.app:
+    container_name: askme.app
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - ASPNETCORE_URLS=https://+:443;http://+:80
+      - "APIConaction=http://host.docker.internal:8081"
+    ports:
+      - "8085:80"
+      - "4435:443"
+    depends_on:
+      - askme.api
+    volumes:
+      - ${APPDATA}/Microsoft/UserSecrets:/root/.microsoft/usersecrets:ro
+      - ${APPDATA}/ASP.NET/Https:/root/.aspnet/https:ro
