@@ -1,4 +1,6 @@
+using Microsoft.Extensions.Configuration;
 using Microsoft.Net.Http.Headers;
+using System.Net;
 
 namespace AskMe.APP
 {
@@ -11,7 +13,7 @@ namespace AskMe.APP
             builder.Services.AddHttpContextAccessor();
             builder.Services.AddHttpClient("AskMe.API", client =>
             {
-                client.BaseAddress = new Uri("https://localhost:7033"); //api url
+                client.BaseAddress = new Uri(builder.Configuration.GetValue<string>("APIConaction")); //api url
                 client.DefaultRequestHeaders.Clear();
                 client.DefaultRequestHeaders.Add(HeaderNames.Accept, "application/json");
             });
@@ -28,12 +30,10 @@ namespace AskMe.APP
                 app.UseHsts();
             }
 
-            app.UseHttpsRedirection();
+            //app.UseHttpsRedirection();
             app.UseStaticFiles();
 
             app.UseRouting();
-
-            app.UseAuthorization();
 
             app.MapRazorPages();
 

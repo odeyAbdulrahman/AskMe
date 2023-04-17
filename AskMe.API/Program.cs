@@ -1,5 +1,6 @@
 using AskMe.API.Repository;
 using AskMe.API.Services;
+using System.Net;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -19,17 +20,16 @@ var app = builder.Build();
 // Configure the HTTP request pipeline.
 if (app.Environment.IsProduction())
 {
-    app.UseHttpsRedirection();
+    //app.UseHttpsRedirection();
     app.UseHsts();
 }
 else
 {
     app.UseDeveloperExceptionPage();
-    app.UseSwagger();
-    app.UseSwaggerUI();
 }
-
-app.UseHttpsRedirection();
+app.UseSwagger();
+app.UseSwaggerUI();
+//app.UseHttpsRedirection();
 app.UseStaticFiles();
 app.UseRouting();
 app.UseEndpoints(endpoints =>

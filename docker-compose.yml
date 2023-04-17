@@ -1,0 +1,32 @@
+version: '3.4'
+
+services:
+  ### Start DBs ###
+  appdb:
+    image: mongo
+    networks:
+      - app_network
+
+  askme.api:
+    image: ${DOCKER_REGISTRY-}askmeapi
+    networks:
+      - app_network
+    build:
+      context: .
+      dockerfile: AskMe.API/Dockerfile
+
+  askme.app:
+    image: ${DOCKER_REGISTRY-}askmeapp
+    networks:
+      - app_network
+    build:
+      context: .
+      dockerfile: AskMe.APP/Dockerfile
+
+
+networks:
+  app_network:
+      driver: bridge
+
+volumes:
+  mongo_data_value:
