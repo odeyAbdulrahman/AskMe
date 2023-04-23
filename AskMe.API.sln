@@ -9,13 +9,20 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AskMe.APP", "AskMe.APP\AskM
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{A93BBDE5-052A-4D43-BF64-364F224485FC}"
 	ProjectSection(SolutionItems) = preProject
-		.dockerignore = .dockerignore
-		.gitignore = .gitignore
 		LICENSE = LICENSE
+		nginx-deplyment.yaml = nginx-deplyment.yaml
+		nginx-service.yaml = nginx-service.yaml
 		README.md = README.md
 	EndProjectSection
 EndProject
-Project("{E53339B2-1760-4266-BCC7-CA923CBCF16C}") = "docker-compose", "docker-compose.dcproj", "{949AAD21-5724-4E04-AAA8-4B320B760911}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "K8s", "K8s", "{DA70B38F-2FB7-4E25-A657-8EA8315242B3}"
+	ProjectSection(SolutionItems) = preProject
+		K8s\mongo.yaml = K8s\mongo.yaml
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Docker.Compose", "Docker.Compose", "{A6633702-3C58-4B5A-8A5E-959A566159EB}"
+EndProject
+Project("{E53339B2-1760-4266-BCC7-CA923CBCF16C}") = "docker-compose", "Docker.Compose\docker-compose.dcproj", "{949AAD21-5724-4E04-AAA8-4B320B760911}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -38,6 +45,9 @@ Global
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{949AAD21-5724-4E04-AAA8-4B320B760911} = {A6633702-3C58-4B5A-8A5E-959A566159EB}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {EA10BCBD-B5C5-4951-B196-14C2A537ECE1}

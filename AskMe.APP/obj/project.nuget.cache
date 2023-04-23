@@ -1,0 +1,10 @@
+{
+  "version": 2,
+  "dgSpecHash": "4n9VKGyZjSZZfZ+iKu+HarOpw2ndp7LpEuu7B5/78DlMCjLE2p2EfL8TXLLKyyP6JALJ1GNTiF0R18HQNiozYw==",
+  "success": true,
+  "projectFilePath": "D:\\programing\\git\\api\\AskMe\\AskMe.APP\\AskMe.APP.csproj",
+  "expectedPackageFiles": [
+    "C:\\Users\\97150\\.nuget\\packages\\microsoft.visualstudio.azure.containers.tools.targets\\1.17.0\\microsoft.visualstudio.azure.containers.tools.targets.1.17.0.nupkg.sha512"
+  ],
+  "logs": []
+}

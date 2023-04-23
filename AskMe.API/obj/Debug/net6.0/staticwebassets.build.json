@@ -1,0 +1,11 @@
+{
+  "Version": 1,
+  "Hash": "CBXfV2MJW1ayYoFhDKAPC35PdrrG3Q3BocsCArd4amA=",
+  "Source": "AskMe.API",
+  "BasePath": "_content/AskMe.API",
+  "Mode": "Default",
+  "ManifestType": "Build",
+  "ReferencedProjectsConfiguration": [],
+  "DiscoveryPatterns": [],
+  "Assets": []
+}
