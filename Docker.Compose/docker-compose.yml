@@ -7,7 +7,8 @@ services:
      - app_network
 
  askme.api:
-   image: ${DOCKER_REGISTRY-}askmeapi
+ # image: ${DOCKER_REGISTRY-}askmeapi
+   image: odey114/askme-api:latest
    build:
      context: ..
      dockerfile: AskMe.API/Dockerfile
@@ -15,7 +16,8 @@ services:
      - app_network
 
  askme.app:
-   image: ${DOCKER_REGISTRY-}askmeapp
+ # image: ${DOCKER_REGISTRY-}askmeapp
+   image: odey114/askme-app:latest
    build:
      context: ..
      dockerfile: AskMe.APP/Dockerfile

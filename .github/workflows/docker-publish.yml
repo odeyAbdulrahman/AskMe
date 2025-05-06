@@ -67,13 +67,8 @@ jobs:
           cd Docker.Compose
           docker compose -f docker-compose.yml -f docker-compose.override.yml build
           
-      - name: Push to Docker Hub
+      - name: Push Images to Docker Hub
         if: github.ref == 'refs/heads/main'
         run: |
-          # Tag images with Docker Hub repository
-          docker tag askmeapi ${{ env.API_IMAGE_NAME }}:latest
-          docker tag askmeapp ${{ env.APP_IMAGE_NAME }}:latest
-          
-          # Push images
-          docker push ${{ env.API_IMAGE_NAME }}:latest
-          docker push ${{ env.APP_IMAGE_NAME }}:latest
+          cd Docker.Compose
+          docker compose -f docker-compose.yml -f docker-compose.override.yml push
