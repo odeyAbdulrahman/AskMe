@@ -9,6 +9,7 @@ on:
 env:
   APP_IMAGE_NAME: odey114/askme-app
   API_IMAGE_NAME: odey114/askme-api
+  DOCKER_REGISTRY: odey114/
 
 jobs:
   build-and-deploy:
@@ -40,12 +41,16 @@ jobs:
           dotnet test ./AskMe.API/AskMe.API.csproj --no-restore --verbosity normal
 
       # Docker Setup
-      - name: Install Docker Compose
+      - name: Install Docker components
         run: |
-          # Install Docker Compose standalone (not plugin)
-          sudo curl -L "https://github.com/docker/compose/releases/download/v2.24.5/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose
-          sudo chmod +x /usr/local/bin/docker-compose
-          docker-compose --version
+          # Install Docker Compose V2 (modern installation)
+          mkdir -p ~/.docker/cli-plugins/
+          curl -SL "https://github.com/docker/compose/releases/download/v2.24.5/docker-compose-linux-$(uname -m)" -o ~/.docker/cli-plugins/docker-compose
+          chmod +x ~/.docker/cli-plugins/docker-compose
+          
+          # Verify installations
+          docker --version
+          docker compose version
 
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v2
@@ -57,18 +62,18 @@ jobs:
             password: Odey@4321
 
       # Build and push
-      - name: Build and push with Docker Compose
+      - name: Build with Docker Compose
         run: |
-          # Set environment variables for image names
-          export DOCKER_REGISTRY=odey114/
+          cd Docker.Compose
+          docker compose -f docker-compose.yml -f docker-compose.override.yml build
           
-          # Build images using both compose files
-          docker-compose -f Docker.Compose/docker-compose.yml -f Docker.Compose/docker-compose.override.yml build
+      - name: Push to Docker Hub
+        if: github.ref == 'refs/heads/main'
+        run: |
+          # Tag images with Docker Hub repository
+          docker tag askmeapi ${{ env.API_IMAGE_NAME }}:latest
+          docker tag askmeapp ${{ env.APP_IMAGE_NAME }}:latest
           
-          # Tag and push only on main branch
-          if [[ $GITHUB_REF == refs/heads/main ]]; then
-            docker tag ${API_IMAGE_NAME} odey114/askme-api:latest
-            docker tag ${APP_IMAGE_NAME} odey114/askme-app:latest
-            docker push odey114/askme-api:latest
-            docker push odey114/askme-app:latest
-          fi
+          # Push images
+          docker push ${{ env.API_IMAGE_NAME }}:latest
+          docker push ${{ env.APP_IMAGE_NAME }}:latest
