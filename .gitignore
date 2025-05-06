@@ -3,4 +3,9 @@
 ################################################################################
 
 /.vs
-/AskMe.APP/bin/Debug/net6.0
+/AskMe.APP/bin
+/AskMe.APP/obj
+
+/AskMe.API/bin
+/AskMe.API/obj
+

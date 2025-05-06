@@ -15,7 +15,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("AskMe.API")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+ccb85cdf8c0b3a3bf725815e91bff5c523ba4575")]
 [assembly: System.Reflection.AssemblyProductAttribute("AskMe.API")]
 [assembly: System.Reflection.AssemblyTitleAttribute("AskMe.API")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

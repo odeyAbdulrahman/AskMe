@@ -1,24 +1,24 @@
 {
   "format": 1,
   "restore": {
-    "D:\\programing\\git\\api\\AskMe\\AskMe.APP\\AskMe.APP.csproj": {}
+    "D:\\Programing\\git\\api\\AskMe\\AskMe.APP\\AskMe.APP.csproj": {}
   },
   "projects": {
-    "D:\\programing\\git\\api\\AskMe\\AskMe.APP\\AskMe.APP.csproj": {
+    "D:\\Programing\\git\\api\\AskMe\\AskMe.APP\\AskMe.APP.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "D:\\programing\\git\\api\\AskMe\\AskMe.APP\\AskMe.APP.csproj",
+        "projectUniqueName": "D:\\Programing\\git\\api\\AskMe\\AskMe.APP\\AskMe.APP.csproj",
         "projectName": "AskMe.APP",
-        "projectPath": "D:\\programing\\git\\api\\AskMe\\AskMe.APP\\AskMe.APP.csproj",
+        "projectPath": "D:\\Programing\\git\\api\\AskMe\\AskMe.APP\\AskMe.APP.csproj",
         "packagesPath": "C:\\Users\\97150\\.nuget\\packages\\",
-        "outputPath": "D:\\programing\\git\\api\\AskMe\\AskMe.APP\\obj\\",
+        "outputPath": "D:\\Programing\\git\\api\\AskMe\\AskMe.APP\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
-          "C:\\Program Files\\DevExpress 22.2\\Components\\Offline Packages"
+          "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
         ],
         "configFilePaths": [
           "C:\\Users\\97150\\AppData\\Roaming\\NuGet\\NuGet.Config",
-          "C:\\Program Files (x86)\\NuGet\\Config\\DevExpress 22.2.config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [
@@ -26,7 +26,8 @@
         ],
         "sources": {
           "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
-          "D:\\Nug": {},
+          "C:\\Program Files\\dotnet\\library-packs": {},
+          "D:\\packages": {},
           "https://api.nuget.org/v3/index.json": {}
         },
         "frameworks": {
@@ -39,7 +40,13 @@
           "warnAsError": [
             "NU1605"
           ]
-        }
+        },
+        "restoreAuditProperties": {
+          "enableAudit": "true",
+          "auditLevel": "low",
+          "auditMode": "direct"
+        },
+        "SdkAnalysisLevel": "9.0.200"
       },
       "frameworks": {
         "net6.0": {
@@ -69,7 +76,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\7.0.104\\RuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\9.0.203\\RuntimeIdentifierGraph.json"
         }
       }
     }
