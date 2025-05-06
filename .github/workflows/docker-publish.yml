@@ -42,8 +42,9 @@ jobs:
       # Docker Setup
       - name: Install Docker Compose
         run: |
-          sudo curl -L "https://github.com/docker/compose/releases/download/v2.23.0/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose
-          sudo chmod +x /usr/local/bin/docker-compose
+          sudo apt-get update
+          sudo apt-get install -y docker-compose-plugin
+          docker compose version
 
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v2
@@ -57,7 +58,16 @@ jobs:
       # Build and push
       - name: Build and push with Docker Compose
         run: |
-          docker-compose -f Docker.Compose/docker-compose.yml build
+          # Set environment variables for image names
+          export DOCKER_REGISTRY=odey114/
+          
+          # Build images using both compose files
+          docker compose -f Docker.Compose/docker-compose.yml -f Docker.Compose/docker-compose.override.yml build
+          
+          # Tag and push only on main branch
           if [[ $GITHUB_REF == refs/heads/main ]]; then
-            docker-compose -f Docker.Compose/docker-compose.yml push
+            docker tag ${API_IMAGE_NAME} odey114/askme-api:latest
+            docker tag ${APP_IMAGE_NAME} odey114/askme-app:latest
+            docker push odey114/askme-api:latest
+            docker push odey114/askme-app:latest
           fi
