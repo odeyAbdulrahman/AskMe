@@ -1,0 +1,15 @@
+[
+  {
+    "Name": "New Profile",
+    "Projects": [
+      {
+        "Path": "AskMe.API\\AskMe.API.csproj",
+        "Action": "Start"
+      },
+      {
+        "Path": "AskMe.APP\\AskMe.APP.csproj",
+        "Action": "Start"
+      }
+    ]
+  }
+]

@@ -1,0 +1,36 @@
+## kubectl apply -f .\nginx-deplyment.yaml
+## kubectl delete -f .\nginx-deplyment.yaml
+apiVersion: apps/v1
+kind: Deployment
+metadata: 
+  name: mongo-deployment
+  labels:
+    app: mongoDb
+spec:
+  replicas: 1
+  selector: 
+    matchLabels: 
+      app: mongoDb
+  template:
+    metadata: 
+      name: mongo-deployment
+      labels:
+        app: mongoDb
+    spec:
+      containers:
+      - name: mongoDb
+        image: mongo
+        ports:
+        - containerPort: 27017
+        resources:
+          request:
+            memory: "64Mi"
+            cpu: "250m"
+          limits:
+            memory: "128Mi"
+            cpu: "500m"
+        env:
+        - name: MONGO_INITDB_USER
+          value: user@#
+        - name: MONGO_INITDB_PWD
+          value: user@123
