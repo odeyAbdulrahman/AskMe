@@ -15,42 +15,49 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-    - uses: actions/checkout@v3
+      - uses: actions/checkout@v3
 
-    # Set up .NET Core (for building and testing)
-    - name: Setup .NET Core
-      uses: actions/setup-dotnet@v3
-      with:
-        dotnet-version: '6.0.x'
+      # Set up .NET Core
+      - name: Setup .NET Core
+        uses: actions/setup-dotnet@v3
+        with:
+          dotnet-version: '6.0.x'
 
-    # Restore, build, and test your projects
-    - name: Restore dependencies
-      run: |
-        dotnet restore ./AskMe.APP/AskMe.APP.csproj
-        dotnet restore ./AskMe.API/AskMe.API.csproj
+      # Restore, build, and test
+      - name: Restore dependencies
+        run: |
+          dotnet restore ./AskMe.APP/AskMe.APP.csproj
+          dotnet restore ./AskMe.API/AskMe.API.csproj
 
-    - name: Build projects
-      run: |
-        dotnet build ./AskMe.APP/AskMe.APP.csproj --configuration Release --no-restore
-        dotnet build ./AskMe.API/AskMe.API.csproj --configuration Release --no-restore
+      - name: Build projects
+        run: |
+          dotnet build ./AskMe.APP/AskMe.APP.csproj --configuration Release --no-restore
+          dotnet build ./AskMe.API/AskMe.API.csproj --configuration Release --no-restore
 
-    - name: Run tests
-      run: |
-        dotnet test ./AskMe.APP/AskMe.APP.csproj --no-restore --verbosity normal
-        dotnet test ./AskMe.API/AskMe.API.csproj --no-restore --verbosity normal
+      - name: Run tests
+        run: |
+          dotnet test ./AskMe.APP/AskMe.APP.csproj --no-restore --verbosity normal
+          dotnet test ./AskMe.API/AskMe.API.csproj --no-restore --verbosity normal
 
-    # Set up Docker and Docker Compose
-    - name: Set up Docker Buildx
-      uses: docker/setup-buildx-action@v2
+      # Docker Setup
+      - name: Install Docker Compose
+        run: |
+          sudo curl -L "https://github.com/docker/compose/releases/download/v2.23.0/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose
+          sudo chmod +x /usr/local/bin/docker-compose
 
-    - name: Login to Docker Hub
-      uses: docker/login-action@v2
-      with:
-        username: odey114
-        password: Odey@4321
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v2
 
-    # Build and push using docker-compose
-    - name: Build and push with Docker Compose
-      run: |
-        docker-compose -f Docker.Compose/docker-compose.yml build
-        docker-compose -f Docker.Compose/docker-compose.yml push
+      - name: Login to Docker Hub
+        uses: docker/login-action@v2
+        with:
+            username: odey114
+            password: Odey@4321
+
+      # Build and push
+      - name: Build and push with Docker Compose
+        run: |
+          docker-compose -f Docker.Compose/docker-compose.yml build
+          if [[ $GITHUB_REF == refs/heads/main ]]; then
+            docker-compose -f Docker.Compose/docker-compose.yml push
+          fi
