@@ -2,15 +2,17 @@
 # This .gitignore file was automatically created by Microsoft(R) Visual Studio.
 ################################################################################
 
-/.vs
-/AskMe.APP/bin
-/AskMe.APP/obj
+/.vs/
+/AskMe.API/obj/
+/AskMe.APP/obj/
 
-/AskMe.API/bin
-/AskMe.API/obj
+/AskMe.API/bin/
+/AskMe.APP/bin/
 
-/.vs/AskMe.API/v17/.suo
-/.vs/ProjectEvaluation/askme.api.metadata.v5.2
-/.vs/ProjectEvaluation/askme.api.projects.v5.2
-/AskMe.API/obj/Debug/net6.0/AskMe.API.AssemblyInfo.cs
-/AskMe.APP/obj/Debug/net6.0/AskMe.APP.AssemblyInfo.cs
+/AskMe.API/appsettings.Development.json
+/AskMe.API/appsettings.Production.json
+/AskMe.API/appsettings.Staging.json
+/AskMe.API/appsettings.json
+
+
+
