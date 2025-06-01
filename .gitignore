@@ -3,9 +3,14 @@
 ################################################################################
 
 /.vs/
+/.vs/AskMe.API/
+
+
+/Docker.Compose/obj/
 /AskMe.API/obj/
 /AskMe.APP/obj/
 
+/Docker.Compose/bin/
 /AskMe.API/bin/
 /AskMe.APP/bin/
 
@@ -13,6 +18,3 @@
 /AskMe.API/appsettings.Production.json
 /AskMe.API/appsettings.Staging.json
 /AskMe.API/appsettings.json
-
-
-

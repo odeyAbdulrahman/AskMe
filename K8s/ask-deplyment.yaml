@@ -1,0 +1,105 @@
+# askme-full-deployment.yam
+# kubectl get pods
+# kubectl describe pod <pod-name>
+# kubectl logs <pod-name>
+
+apiVersion: apps/v1
+kind: Deployment
+metadata: 
+  name: askme-depl
+  labels:
+    app: askme
+spec:
+  replicas: 1
+  selector: 
+    matchLabels: 
+      app: askme
+  template:
+    metadata: 
+      labels:
+        app: askme
+    spec:
+      containers:
+      - name: askme-api
+        image: odey114/askme-api:latest
+        imagePullPolicy: Always
+        ports:
+        - containerPort: 80
+        env:
+        - name: ASPNETCORE_ENVIRONMENT
+          value: "Development"
+        - name: DataBaseSettings__ConnectionString
+          valueFrom:
+            configMapKeyRef:
+              name: mongo-config
+              key: connection_string
+        resources:
+          limits:
+            cpu: "500m"
+            memory: "256Mi"
+          requests:
+            cpu: "200m"
+            memory: "128Mi"
+
+---
+apiVersion: v1
+kind: Service
+metadata: 
+  name: askme-service
+spec:
+  type: NodePort
+  selector: 
+    app: askme
+  ports:
+    - protocol: TCP
+      port: 8000
+      targetPort: 80
+      nodePort: 31000
+
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: askme-app-depl
+  labels:
+    app: askme-app
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: askme-app
+  template:
+    metadata:
+      name: askme-app-depl
+      labels:
+        app: askme-app
+    spec:
+      restartPolicy: Always
+      containers:
+      - name: askme-app
+        image: odey114/askme-app:latest
+        imagePullPolicy: Always
+        ports:
+        - containerPort: 80
+        resources:
+          limits:
+            cpu: "500m"
+            memory: "256Mi"
+          requests:
+            cpu: "200m"
+            memory: "128Mi"
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: askme-app-service
+spec:
+  type: NodePort
+  selector:
+    app: askme-app
+  ports:
+    - protocol: TCP
+      port: 8080
+      targetPort: 80
+      nodePort: 31002
