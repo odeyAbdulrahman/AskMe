@@ -3,6 +3,16 @@
 # kubectl describe pod <pod-name>
 # kubectl logs <pod-name>
 
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: client-config
+  labels:
+    app: myapplication
+data:
+  conaction_url: "http://askme-service"
+
+---
 apiVersion: apps/v1
 kind: Deployment
 metadata: 
@@ -81,6 +91,14 @@ spec:
         imagePullPolicy: Always
         ports:
         - containerPort: 80
+        env:
+          - name: ASPNETCORE_ENVIRONMENT
+            value: Development
+          - name: APIConaction
+            valueFrom:
+              configMapKeyRef:
+                name: client-config
+                key: conaction_url
         resources:
           limits:
             cpu: "500m"

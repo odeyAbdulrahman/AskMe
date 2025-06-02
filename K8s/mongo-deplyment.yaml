@@ -16,7 +16,7 @@ kind: ConfigMap
 metadata:
   name: mongo-config
 data:
-  connection_string: "mongodb://admin:password123@mongodb-service:27017/AskMeDb?authSource=admin&authMechanism=SCRAM-SHA-256"
+  connection_string: mongodb://mongodb-username:mongodb-password@mongodb-service:27017
 
 ---
 apiVersion: v1
@@ -70,6 +70,8 @@ spec:
         - mongod
         - "--auth"
         - "--bind_ip_all"
+        - "--setParameter"
+        - "authenticationMechanisms=SCRAM-SHA-1"
         resources:
           requests:
             memory: "256Mi"
@@ -80,10 +82,32 @@ spec:
         volumeMounts:
         - name: mongodb-persistent-storage
           mountPath: /data/db
+        - name: mongo-init-script
+          mountPath: /docker-entrypoint-initdb.d
       volumes:
       - name: mongodb-persistent-storage
         persistentVolumeClaim:
           claimName: mongodb-pv-claim
+      - name: mongo-init-script
+        configMap:
+          name: mongo-init-script
+
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: mongo-init-script
+data:
+  init-mongo.js: |
+    db.auth('admin', 'password123')
+    db = db.getSiblingDB('AskMeDb')
+    db.createUser({
+      user: 'admin',
+      pwd: 'password123',
+      roles: [
+        { role: 'readWrite', db: 'AskMeDb' }
+      ]
+    })
 
 ---
 apiVersion: v1
