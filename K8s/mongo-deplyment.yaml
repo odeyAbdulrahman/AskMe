@@ -1,0 +1,189 @@
+# mongodb-deployment.yaml
+apiVersion: v1
+kind: Secret
+metadata:
+  name: mongodb-secrets
+type: Opaque
+data:
+  mongodb-username: YWRtaW4=
+  mongodb-password: cGFzc3dvcmQxMjM=
+  mongoexpress-username: YWRtaW4=
+  mongoexpress-password: YWRtaW4xMjM=
+
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: mongo-config
+data:
+  connection_string: mongodb://mongodb-username:mongodb-password@mongodb-service:27017
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: mongodb-service
+spec:
+  selector:
+    app: mongodb
+  ports:
+    - protocol: TCP
+      port: 27017
+      targetPort: 27017
+
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: mongodb
+  labels:
+    app: mongodb
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: mongodb
+  template:
+    metadata:
+      labels:
+        app: mongodb
+    spec:
+      containers:
+      - name: mongodb
+        image: mongo:latest
+        ports:
+        - containerPort: 27017
+        env:
+        - name: MONGO_INITDB_ROOT_USERNAME
+          valueFrom:
+            secretKeyRef:
+              name: mongodb-secrets
+              key: mongodb-username
+        - name: MONGO_INITDB_ROOT_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: mongodb-secrets
+              key: mongodb-password
+        - name: MONGO_INITDB_DATABASE
+          value: "AskMeDb"
+        command:
+        - mongod
+        - "--auth"
+        - "--bind_ip_all"
+        - "--setParameter"
+        - "authenticationMechanisms=SCRAM-SHA-1"
+        resources:
+          requests:
+            memory: "256Mi"
+            cpu: "250m"
+          limits:
+            memory: "512Mi"
+            cpu: "500m"
+        volumeMounts:
+        - name: mongodb-persistent-storage
+          mountPath: /data/db
+        - name: mongo-init-script
+          mountPath: /docker-entrypoint-initdb.d
+      volumes:
+      - name: mongodb-persistent-storage
+        persistentVolumeClaim:
+          claimName: mongodb-pv-claim
+      - name: mongo-init-script
+        configMap:
+          name: mongo-init-script
+
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: mongo-init-script
+data:
+  init-mongo.js: |
+    db.auth('admin', 'password123')
+    db = db.getSiblingDB('AskMeDb')
+    db.createUser({
+      user: 'admin',
+      pwd: 'password123',
+      roles: [
+        { role: 'readWrite', db: 'AskMeDb' }
+      ]
+    })
+
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: mongodb-pv-claim
+spec:
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 1Gi
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: mongoexpress-service
+spec:
+  selector:
+    app: mongoexpress
+  ports:
+    - protocol: TCP
+      port: 8081
+      targetPort: 8081
+  type: LoadBalancer
+
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: mongoexpress
+  labels:
+    app: mongoexpress
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: mongoexpress
+  template:
+    metadata:
+      labels:
+        app: mongoexpress
+    spec:
+      containers:
+      - name: mongoexpress
+        image: mongo-express:latest
+        ports:
+        - containerPort: 8081
+        env:
+        - name: ME_CONFIG_MONGODB_ADMINUSERNAME
+          valueFrom:
+            secretKeyRef:
+              name: mongodb-secrets
+              key: mongodb-username
+        - name: ME_CONFIG_MONGODB_ADMINPASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: mongodb-secrets
+              key: mongodb-password
+        - name: ME_CONFIG_MONGODB_SERVER
+          value: mongodb-service
+        - name: ME_CONFIG_BASICAUTH_USERNAME
+          valueFrom:
+            secretKeyRef:
+              name: mongodb-secrets
+              key: mongoexpress-username
+        - name: ME_CONFIG_BASICAUTH_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: mongodb-secrets
+              key: mongoexpress-password
+        resources:
+          requests:
+            memory: "128Mi"
+            cpu: "100m"
+          limits:
+            memory: "256Mi"
+            cpu: "250m"

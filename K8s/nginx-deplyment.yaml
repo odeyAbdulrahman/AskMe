@@ -22,3 +22,10 @@ spec:
         image: nginx:1.16
         ports:
         - containerPort: 8090
+        resources:
+          limits:
+            cpu: "500m"
+            memory: "256Mi"
+          requests:
+            cpu: "200m"
+            memory: "128Mi"
