@@ -9,9 +9,10 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AskMe.APP", "AskMe.APP\AskM
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "K8s", "K8s", "{DA70B38F-2FB7-4E25-A657-8EA8315242B3}"
 	ProjectSection(SolutionItems) = preProject
-		K8s\mongo.yaml = K8s\mongo.yaml
+		K8s\ask-deplyment.yaml = K8s\ask-deplyment.yaml
+		K8s\dashboard-adminuser.yaml = K8s\dashboard-adminuser.yaml
+		K8s\mongo-deplyment.yaml = K8s\mongo-deplyment.yaml
 		K8s\nginx-deplyment.yaml = K8s\nginx-deplyment.yaml
-		K8s\nginx-service.yaml = K8s\nginx-service.yaml
 	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Docker.Compose", "Docker.Compose", "{A6633702-3C58-4B5A-8A5E-959A566159EB}"
