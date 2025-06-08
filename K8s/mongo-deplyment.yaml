@@ -16,8 +16,8 @@ kind: ConfigMap
 metadata:
   name: mongo-config
 data:
-  connection_string: mongodb://admin:password123@mongodb-service:27017/AskMeDb?authSource=admin
-
+  connection_string: mongodb://mongodb-username:mongodb-password@mongodb-service:27017/AskMeDb?authSource=admin
+  Trusted_Connection: "True"  
 ---
 apiVersion: v1
 kind: ConfigMap
@@ -45,7 +45,8 @@ spec:
   accessModes:
     - ReadWriteOnce
   hostPath:
-    path: /data/mongodb
+    path: /tmp/mongodb
+    type: DirectoryOrCreate
 
 ---
 apiVersion: v1

@@ -32,6 +32,11 @@ spec:
             configMapKeyRef:
               name: mongo-config
               key: connection_string
+        - name: DataBaseSettings__Trusted_Connection
+          valueFrom:
+            configMapKeyRef:
+              name: mongo-config
+              key: Trusted_Connection
         resources:
           limits:
             cpu: "500m"
