@@ -2,17 +2,6 @@
 # kubectl get pods
 # kubectl describe pod <pod-name>
 # kubectl logs <pod-name>
-
-apiVersion: v1
-kind: ConfigMap
-metadata:
-  name: client-config
-  labels:
-    app: myapplication
-data:
-  conaction_url: "http://askme-service"
-
----
 apiVersion: apps/v1
 kind: Deployment
 metadata: 
@@ -43,6 +32,11 @@ spec:
             configMapKeyRef:
               name: mongo-config
               key: connection_string
+        - name: DataBaseSettings__Trusted_Connection
+          valueFrom:
+            configMapKeyRef:
+              name: mongo-config
+              key: Trusted_Connection
         resources:
           limits:
             cpu: "500m"
@@ -62,10 +56,20 @@ spec:
     app: askme
   ports:
     - protocol: TCP
-      port: 8000
+      port: 80
       targetPort: 80
       nodePort: 31000
 
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: client-config
+  labels:
+    app: myapplication
+data:
+  conaction_url: "http://askme-service"
+  
 ---
 apiVersion: apps/v1
 kind: Deployment
