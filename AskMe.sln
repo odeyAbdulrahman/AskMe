@@ -10,7 +10,6 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "K8s", "K8s", "{DA70B38F-2FB7-4E25-A657-8EA8315242B3}"
 	ProjectSection(SolutionItems) = preProject
 		K8s\ask-deplyment.yaml = K8s\ask-deplyment.yaml
-		K8s\dashboard-adminuser.yaml = K8s\dashboard-adminuser.yaml
 		K8s\mongo-deplyment.yaml = K8s\mongo-deplyment.yaml
 		K8s\nginx-deplyment.yaml = K8s\nginx-deplyment.yaml
 	EndProjectSection
