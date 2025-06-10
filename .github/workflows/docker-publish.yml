@@ -43,12 +43,10 @@ jobs:
       # Docker Setup
       - name: Install Docker components
         run: |
-          # Install Docker Compose V2 (modern installation)
           mkdir -p ~/.docker/cli-plugins/
           curl -SL "https://github.com/docker/compose/releases/download/v2.24.5/docker-compose-linux-$(uname -m)" -o ~/.docker/cli-plugins/docker-compose
           chmod +x ~/.docker/cli-plugins/docker-compose
           
-          # Verify installations
           docker --version
           docker compose version
 
