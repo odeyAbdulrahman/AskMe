@@ -11,7 +11,6 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "K8s", "K8s", "{DA70B38F-2FB
 	ProjectSection(SolutionItems) = preProject
 		K8s\ask-deplyment.yaml = K8s\ask-deplyment.yaml
 		K8s\mongo-deplyment.yaml = K8s\mongo-deplyment.yaml
-		K8s\nginx-deplyment.yaml = K8s\nginx-deplyment.yaml
 	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Docker.Compose", "Docker.Compose", "{A6633702-3C58-4B5A-8A5E-959A566159EB}"
