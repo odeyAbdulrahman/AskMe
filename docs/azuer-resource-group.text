@@ -1,0 +1,25 @@
+# Create a resource group
+az group create --name aksresource-group --location eastus
+
+# Create an Azure Container Registry in the resource group
+az acr create --resource-group aksresource-group --name askacr69 --sku Basic
+
+# Enable admin user on the registry
+az acr update --name askacr69 --resource-group aksresource-group --admin-enabled true
+
+# Build your Docker images (run these in the directories with your Dockerfiles)
+docker build -t askme-api:latest ./path/to/askme-api
+docker build -t askme-app:latest ./path/to/askme-app
+
+# Tag your images for ACR
+docker tag askme-api:latest askacr69.azurecr.io/askme-api:latest
+docker tag askme-app:latest askacr69.azurecr.io/askme-app:latest
+
+# Log in to ACR
+az acr login --name askacr69
+
+# Push the images to ACR
+docker push askacr69.azurecr.io/askme-api:latest
+docker push askacr69.azurecr.io/askme-app:latest
+
+az acr repository list --name askacr69 --output table
